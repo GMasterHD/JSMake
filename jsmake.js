@@ -1,5 +1,8 @@
 workspace('Test-Project')
+location('./')
 
 include('test/Engine')
 
-console.log('Executing main...')
+task('clean', (args) => {
+    console.log('Running clean...')
+}, ['game:test'])
