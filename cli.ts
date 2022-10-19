@@ -5,6 +5,14 @@ import ArgsParser from 'args-parser'
 const task = process.argv[2]
 const args = ArgsParser(process.argv)
 
+import OS from 'os'
+switch(OS.platform()) {
+    case "win32": args['platform'] = 'windows'; break
+    case "linux": args['platform'] = 'linux'; break
+    case "darwin": args['platform'] = 'osx'; break
+    default: args['platform'] = 'unknown'
+}
+
 import * as PackageJsonTypes from 'package-json-types'
 import * as Commands from './Commands.js'
 

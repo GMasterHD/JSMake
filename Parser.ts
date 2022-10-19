@@ -71,6 +71,30 @@ function filter(filters: string|string[], fn: () => void) {
     } else {
         Parser.data.filters.push(filter)
     }
+
+    let ergs: boolean[] = []
+    filter.predicates.forEach(ps => {
+        let erg = undefined
+
+        ps.forEach(p => {
+            if(erg) return
+
+            console.log(`${Parser.macros[p.macro]} == ${p.value}`)
+            if(p.negate) {
+                erg = Parser.macros[p.macro] != p.value;
+            } else {
+                erg = Parser.macros[p.macro] == p.value;
+            }
+        })
+
+        ergs.push(erg)
+    })
+
+    console.log({ergs})
+
+    if(!ergs.includes(false)) {
+        fn()
+    }
 }
 
 function project(name: string) {
@@ -175,9 +199,11 @@ export class Parser {
 
         if(args['arch'] == undefined) args['arch'] = 'x86'
         if(args['cfg'] == undefined) args['cfg'] = 'Debug'
+        if(args['platform'] == undefined) args['platform'] = 'unknown'
 
         Parser.macros['arch'] = args['arch']
         Parser.macros['cfg'] = args['cfg']
+        Parser.macros['platform'] = args['platform']
 
         Parser.run(file)
         console.log(JSON.stringify(Parser.data, null, 4))

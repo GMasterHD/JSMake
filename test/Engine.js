@@ -13,8 +13,9 @@ project('Game')
 
     src('Main.cpp')
 
-    filter(['cfg==Debug|arch!=x64', 'platform==Windows'], () => {
+    filter(['cfg==Debug|arch!=x64', 'platform==windows'], () => {
         outDir('test')
+        console.log('Running filter!')
     })
 
 task('test', (args) => {
